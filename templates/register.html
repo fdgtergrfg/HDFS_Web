@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/bootstrap/js/jquery-3.2.1.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    {% include "header.html" %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                {% if userExist == True %}
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span>&times;</span>
+                        </button>
+                        nickname already exists
+                    </div>
+                {% elif specialToken == True %}
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span>&times;</span>
+                        </button>
+                        nickname may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen
+                    </div>
+                {% elif empty == True %}
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span>&times;</span>
+                        </button>
+                        please enter nickname and password
+                    </div>
+                {% elif long == True %}
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span>&times;</span>
+                        </button>
+                        nickname is too long (maximum is 39 characters)
+                    </div>
+                {% endif %}
+
+                <form action="{% url 'register' %}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                 {% csrf_token %}
+                  <div class="form-group">
+                    <label for="username">nickname</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="input nickname">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="input password">
+                  </div>
+                  <button type="submit" class="btn btn-default">register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+</body>
+</html>

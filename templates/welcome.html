@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+{#    <link href="/static/bootstrap/css/dashboard.css" rel="stylesheet">#}
+
+    <script src="/static/bootstrap/js/jquery-3.2.1.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+{#    <script src="/static/bootstrap/js/holder.min.js"></script>#}
+
+    <meta charset="UTF-8">
+    <title>Hit Chain</title>
+</head>
+<body>
+
+{#    顶部导航#}
+{% include "header.html" %}
+{#    顶部导航 over#}
+
+    {# 判断是不是已经登录了 #}
+    {% if request.user.is_authenticated %}
+        {# 表示用户已经登录了 #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <span class="text-left text-danger">Repositories</span>
+                    <a class="text-danger" href="newRepo"><span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+
+                    <table class="table table-hover">
+                        {% for repo in repos %}
+                            <tr>
+                                <td>
+                                    <a class="text-right text-muted" href="/showAuth?repoId={{ repo.id }}">{{ repo.reponame }}</a>
+                                </td>
+                                <td>
+                                    <span class="text-muted"> http://{{ webUrl }}/{{repo.username }}/{{ repo.reponame }}.hit</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+           </div>
+        </div>
+
+    {% else %}
+
+        <a id="jump_login" onclick="jump_login()"></a>
+
+    {% endif %}
+
+    {% include "footer.html" %}
+
+</body>
+
+<script type="application/javascript">
+
+    $(function(){
+        $("#jump_login").click();
+    });
+
+    function jump_login(){
+        url = "/login";
+        window.location.href=url;
+    }
+
+</script>
+</html>
